@@ -1,0 +1,48 @@
+
+
+.gallery-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ebebeb;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #000;
+}
+
+input {
+    display: flex;
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px;
+    background-color: #c23e56;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+#imageGallery {
+    display: block;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+    
+}
+
+.img-container {
+    margin: 0px;
+    
+}

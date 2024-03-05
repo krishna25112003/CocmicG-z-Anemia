@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anemia Detection</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+    <h1>Anemia Detection</h1>
+    <input type="file" accept="image/*" onchange="previewImage(event)">
+    <img id="preview" alt="Preview Image" style="max-width: 400px; margin-top: 20px;">
+    <button onclick="detectAnemia()">Detect Anemia</button>
+    <p id="result"></p>
+
+    <script>
+        let model;
+        let imageElement = document.getElementById('preview');
+        let resultElement = document.getElementById('result');
+
+        async function loadModel() {
+            model = await tf.loadLayersModel('path/to/your/model.json');
+        }
+
+        async function detectAnemia() {
+            if (!model) {
+                await loadModel();
+            }
+
+            if (!imageElement.src || imageElement.src === '') {
+                alert('Please select an image first.');
+                return;
+            }
+
+            const image = tf.browser.fromPixels(imageElement).resizeBilinear([224, 224]).toFloat();
+            const normalizedImage = image.div(tf.scalar(255.0)).expandDims();
+            const predictions = await model.predict(normalizedImage).data();
+
+            // Adjust this threshold based on your model's output
+            const isAnemia = predictions[0] > 0.5;
+
+            resultElement.textContent = isAnemia ? 'Anemia Detected' : 'No Anemia Detected';
+        }
+
+        function previewImage(event) {
+            const input = event.target;
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imageElement.src = e.target.result;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</body>
+</html>
